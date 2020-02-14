@@ -13,11 +13,31 @@ const boilerPlateSchema = new Schema(
             location: String,
             email: String,
             completedActivites: {
-                    placeholder: null
+                    default: null
                     // insert completed activities via mongo version of join.
                 }
+        },
+
+        completedActivites: {
+            activityName: String,
+            description: String,
+            Type: String,
+            LengthofHike: Number,
+            Date: {
+                type: Date,
+                default: () => new Date ()
+            }
         }
+
     },
 );
+
+
+
+
+
+
+
+
 const boilerPlate = mongoose.model("lifestyle", boilerPlateSchema);
 module.exports = boilerPlate;

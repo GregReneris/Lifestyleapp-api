@@ -4,7 +4,13 @@ const mongoose = require("mongoose");
 
 const PORT = process.env.PORT || 3000;
 
+const databaseUrl = "lifestyle";
+const collections = ["users", "completedActivities"];
+const db = mongojs(databaseUrl, collections);
+
 const db = require("./models");
+
+
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
