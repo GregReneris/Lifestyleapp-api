@@ -30,7 +30,7 @@ ActivitySchema.methods.test = function (tacocat) {
 ActivitySchema.statics.createFromEvent = function (event) {
     //console.log ("got to activity static");
     return new mongoose.model("Activity") ( {
-        id: event.id,
+        id: "event:" + event.id,
         activityName: event.name,
         description: event.info,
         url: event.url,     // need to find the other url for the local venue if possible.
@@ -46,7 +46,7 @@ ActivitySchema.statics.createFromEvent = function (event) {
 ActivitySchema.statics.createFromHikes = function (event) {
     //console.log ("got to activity static");
     return new mongoose.model("Activity") ( {
-        id: event.id,
+        id: "hike:" + String(event.id),
         activityName: event.name,
         description: event.summary,
         url: event.url,     // need to find the other url for the local venue if possible.
