@@ -76,8 +76,8 @@ app.get('/api/activities' , (req,res)=>{
   let apikey = "dwXD5AKGG1cYnioNAAh1PSKaTZu2TIVN";
 
   let currentTime = new Date();
-  let startTime = currentTime.toISOString().substr(0,19)+"Z";
-  let endTime = new Date( currentTime.getTime() + 60*60*24*1000 ).toISOString().substr(0,19)+"Z";
+  let startTime = currentTime.toISOString().split(".")[0]+"Z";
+  let endTime = new Date( currentTime.getTime() + 60*60*24*1000 ).toISOString().split(".")[0]+"Z";
   let size = 20; 
   let url = "https://app.ticketmaster.com/discovery/v2/events.json";
   let city = "seattle";
