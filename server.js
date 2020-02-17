@@ -22,7 +22,7 @@ db.on("error", error => {
   console.log("Database Error:", error);
 });
 
-// this creates local database for local use. As it's created on demand.
+// this creates local database for local use. As mongoose databases are created on demand.
 // let z = new schemas.User({ 
 //   firstname: "myFirstName",
 //   lastname: "myLastName"
@@ -88,30 +88,20 @@ app.get('/api/activities' , (req,res)=>{
   let currentTime = new Date( date.getTime()-date.getTimezoneOffset()*60*1000);
   let startTime = currentTime.toISOString().split(".")[0]+"Z";
   let endTime = new Date( currentTime.getTime() + 60*60*24*1000 ).toISOString().split(".")[0]+"Z";
-  let size = 1; 
+  let size = 10; 
   let url = "https://app.ticketmaster.com/discovery/v2/events.json";
   let city = "seattle";
 
-  //"https://app.ticketmaster.com/discovery/v2/events.json?size=5&apikey=dwXD5AKGG1cYnioNAAh1PSKaTZu2TIVN&city=seattle&startDateTime=2020-02-14T14:00:00Z"
-  
   let finalurl = `${url}?apikey=${apikey}&size=${size}&city=${city}&startDateTime=${startTime}&endDateTime=${endTime}`; 
   console.log(finalurl);
   fetch(finalurl).then(response => {
-    // console.log(response);
-
-    return response.json()
-
-    
-}).then(data => {
-    new db
+    return response.json()  
+  }).then(data => {
     let activities = data._embedded.events.map(event => {
-        return {
-            name: event.name,
-            img: event.images[0].url,
-            date: event.dates.start.localDate,
-            url: event.url
-        }
+      return schemas.Activity.createFromEvent(event);
     })
+    res.json(activities);
+    // console.log (activities);    
   });
 });
 
