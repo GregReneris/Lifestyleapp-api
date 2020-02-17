@@ -27,7 +27,7 @@ ActivitySchema.methods.test = function (tacocat) {
     console.log ("got to activity test");
 }
 
-ActivitySchema.static("createFromEvent", function (event) {
+ActivitySchema.statics.createFromEvent = function (event) {
     //console.log ("got to activity static");
     return new mongoose.model("Activity") ( {
         id: event.id,
@@ -41,7 +41,22 @@ ActivitySchema.static("createFromEvent", function (event) {
         longitude: event._embedded.venues[0].location.longitude,
         travelTime: Math.floor(Math.random() * 60) // TODO
       })
-})
+}
+
+ActivitySchema.statics.createFromHikes = function (event) {
+    //console.log ("got to activity static");
+    return new mongoose.model("Activity") ( {
+        id: event.id,
+        activityName: event.name,
+        description: event.summary,
+        url: event.url,     // need to find the other url for the local venue if possible.
+        imgurl: event.imgMedium,
+        type: "Hike",
+        latitude: event.latitude,
+        longitude: event.longitude,
+        travelTime: Math.floor(Math.random() * 60) // TODO
+      })
+}
 
 
 

@@ -17,6 +17,11 @@ const tmApikey = "dwXD5AKGG1cYnioNAAh1PSKaTZu2TIVN";
 const tmSize = 100; 
 const tmUrl = "https://app.ticketmaster.com/discovery/v2/events.json";
 const tmCity = "seattle";
+const hkApikey = "200685387-0d1f511c4df4599326d988945a93ebf8";
+const hkLocation = "lat=47.6045335&lon=-122.3531904"
+const hkRadius = 30;
+const hkMaxResults = 5;
+const hkUrl = "https://www.hikingproject.com/data/get-trails";
 
 // const db = mongojs(databaseUrl, collections);
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/lifestyle", { useNewUrlParser: true, useUnifiedTopology: true});
@@ -87,7 +92,6 @@ app.get('/api/auth/loggedinuser',(req,res)=>{
 app.get('/api/activities' , (req,res)=>{
   console.log("We want to know!");
   let maxDuration = 4*60;
-  
   let date = new Date();
   let currentTime = new Date( date.getTime()-date.getTimezoneOffset()*60*1000);
   let startTime = currentTime.toISOString().split(".")[0]+"Z";
@@ -101,6 +105,25 @@ app.get('/api/activities' , (req,res)=>{
   }).then(data => {
     let activities = data._embedded.events.map(event => {
       return schemas.Activity.createFromEvent(event);
+    })
+    res.json(activities);
+    // console.log (activities);    
+  });
+});
+
+
+
+app.get('/api/hikes' , (req,res)=>{
+  console.log("We want to know!");
+  let maxDuration = 4*60;
+
+  let finalurl = `${hkUrl}?key=${hkApikey}&maxDistance=${hkRadius}&maxResult=${hkMaxResults}&${hkLocation}`; 
+  console.log(finalurl);
+  fetch(finalurl).then(response => {
+    return response.json()  
+  }).then(data => {
+    let activities = data.trails.map(event => {
+      return schemas.Activity.createFromHikes(event);
     })
     res.json(activities);
     // console.log (activities);    
