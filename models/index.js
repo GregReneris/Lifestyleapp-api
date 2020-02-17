@@ -1,3 +1,3 @@
 module.exports = {
-    lifestyle: require("./boilerPlate")
+    lifestyle: require("./User")
   };
