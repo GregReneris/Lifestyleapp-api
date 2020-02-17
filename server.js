@@ -75,7 +75,8 @@ app.get('/api/activities' , (req,res)=>{
   let maxDuration = 4*60;
   let apikey = "dwXD5AKGG1cYnioNAAh1PSKaTZu2TIVN";
 
-  let currentTime = new Date();
+  let date = new Date();
+  let currentTime = new Date( date.getTime()-date.getTimezoneOffset()*60*1000);
   let startTime = currentTime.toISOString().split(".")[0]+"Z";
   let endTime = new Date( currentTime.getTime() + 60*60*24*1000 ).toISOString().split(".")[0]+"Z";
   let size = 20; 
