@@ -91,7 +91,7 @@ app.get('/api/auth/loggedinuser',(req,res)=>{
 
 
 
-app.get('/api/activities' , (req,res)=>{
+app.get('/api/events' , (req,res)=>{
   console.log("We want to know!");
   let maxDuration = 4*60;
   let date = new Date();
