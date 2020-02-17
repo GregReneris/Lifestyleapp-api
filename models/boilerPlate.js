@@ -1,32 +1,26 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const boilerPlateSchema = new Schema(
+const UserSchema = new Schema(
     {
-        day: {
-            type: Date,
-            default: () => new Date()
-        },
-        
-        user:{
+        User:{
             name: String,
             password: String,
             location: String,
             email: String,
-            completedActivites: {
-                    default: null
-                    // insert completed activities via mongo version of join.
+            completedActivites: [ {
+                activityName: String,
+                description: String,
+                startTime: Date,
+                duration: Number,
+                url: String,
+                imgurl: String,
+                type: String,
+                lengthofHike: Number,
+                date: {
+                    type: Date,
+                    default: () => new Date ()
                 }
-        },
-
-        completedActivites: {
-            activityName: String,
-            description: String,
-            Type: String,
-            LengthofHike: Number,
-            Date: {
-                type: Date,
-                default: () => new Date ()
-            }
+            }]
         }
 
     },
@@ -39,5 +33,7 @@ const boilerPlateSchema = new Schema(
 
 
 
-const boilerPlate = mongoose.model("lifestyle", boilerPlateSchema);
-module.exports = boilerPlate;
+
+
+const UserSchema = mongoose.model("lifestyle", UserSchema);
+module.exports = User;
