@@ -6,19 +6,28 @@ const cors = require("cors");
 const mongojs = require("mongojs")
 const mongoose = require("mongoose");
 const fetch = require("node-fetch")
-// const schemas = require("./models/index")
+const schemas = require("./models/index")
+//const User = require("./models/User")
 const PORT = process.env.PORT || 3000;
 
 const databaseUrl = "lifestyle";
-const collections = ["users"];
+const collections = ["user"];
 
 // const db = mongojs(databaseUrl, collections);
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/lifestyle", { useNewUrlParser: true, useUnifiedTopology: true});
 
+// the below is probably wrong.
 const db = mongojs(databaseUrl, collections);
 db.on("error", error => {
   console.log("Database Error:", error);
 });
+
+// this creates local database for local use. As it's created on demand.
+// let z = new schemas.User({ 
+//   firstname: "myFirstName",
+//   lastname: "myLastName"
+// })
+// z.save( err=> { console.log("ERROR " + err ) });
 
 
 const app = express();
@@ -29,7 +38,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 
-
+//this is where we start using authentication. 
 app.use(session({ secret: "something secret here", resave: true, saveUninitialized: true,cookie:{maxAge: 7200000} }));
 // app.use(cors({
 //     origin:["https://joesreactzoo.herokuapp.com"]
@@ -79,7 +88,7 @@ app.get('/api/activities' , (req,res)=>{
   let currentTime = new Date( date.getTime()-date.getTimezoneOffset()*60*1000);
   let startTime = currentTime.toISOString().split(".")[0]+"Z";
   let endTime = new Date( currentTime.getTime() + 60*60*24*1000 ).toISOString().split(".")[0]+"Z";
-  let size = 20; 
+  let size = 1; 
   let url = "https://app.ticketmaster.com/discovery/v2/events.json";
   let city = "seattle";
 
@@ -88,24 +97,22 @@ app.get('/api/activities' , (req,res)=>{
   let finalurl = `${url}?apikey=${apikey}&size=${size}&city=${city}&startDateTime=${startTime}&endDateTime=${endTime}`; 
   console.log(finalurl);
   fetch(finalurl).then(response => {
-    console.log(response);
+    // console.log(response);
 
     return response.json()
 
     
 }).then(data => {
-  console.log(data);
-
-    // let ticketMaster = data._embedded.events.map(event => {
-    //     return {
-    //         name: event.name,
-    //         img: event.images[0].url,
-    //         date: event.dates.start.localDate,
-    //         url: event.url
-    //     }
+    new db
+    let activities = data._embedded.events.map(event => {
+        return {
+            name: event.name,
+            img: event.images[0].url,
+            date: event.dates.start.localDate,
+            url: event.url
+        }
     })
-    
-    // document.getElementById('ticketMaster').innerHTML = JSON.stringify(ticketMaster);
+  });
 });
 
 
