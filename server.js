@@ -13,6 +13,11 @@ const PORT = process.env.PORT || 3000;
 const databaseUrl = "lifestyle";
 const collections = ["user"];
 
+const tmApikey = "dwXD5AKGG1cYnioNAAh1PSKaTZu2TIVN";
+const tmSize = 100; 
+const tmUrl = "https://app.ticketmaster.com/discovery/v2/events.json";
+const tmCity = "seattle";
+
 // const db = mongojs(databaseUrl, collections);
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/lifestyle", { useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -82,17 +87,14 @@ app.get('/api/auth/loggedinuser',(req,res)=>{
 app.get('/api/activities' , (req,res)=>{
   console.log("We want to know!");
   let maxDuration = 4*60;
-  let apikey = "dwXD5AKGG1cYnioNAAh1PSKaTZu2TIVN";
-
+  
   let date = new Date();
   let currentTime = new Date( date.getTime()-date.getTimezoneOffset()*60*1000);
   let startTime = currentTime.toISOString().split(".")[0]+"Z";
   let endTime = new Date( currentTime.getTime() + 60*60*24*1000 ).toISOString().split(".")[0]+"Z";
-  let size = 10; 
-  let url = "https://app.ticketmaster.com/discovery/v2/events.json";
-  let city = "seattle";
+ 
 
-  let finalurl = `${url}?apikey=${apikey}&size=${size}&city=${city}&startDateTime=${startTime}&endDateTime=${endTime}`; 
+  let finalurl = `${tmUrl}?apikey=${tmApikey}&size=${tmSize}&city=${tmCity}&startDateTime=${startTime}&endDateTime=${endTime}`; 
   console.log(finalurl);
   fetch(finalurl).then(response => {
     return response.json()  
