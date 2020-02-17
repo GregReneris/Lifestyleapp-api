@@ -138,8 +138,8 @@ app.get('/api/addevent/:id' , (req, res) => {
 
   function save(activity)
   {
-    console.log("Save Now ")
-    console.log( activity)
+    // console.log("Save Now ")
+    // console.log( activity)
     activity.save(err => {
       if (err){
         console.log("Save failed " + err);
