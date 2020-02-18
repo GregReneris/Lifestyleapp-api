@@ -180,17 +180,16 @@ app.get('/api/addevent/:id' , (req, res) => {
 app.get('/api/user' , (req,res)=>{
   console.log("We want the user");
 
-  db.UserSchema.findOne('users')[
-    {  
-      where: 
-      firstname = req.body.firstname     // firstname for now. should be unique id or email later.                             
-    }
-  ]
-  .then(res => res.json())
-  console.log(res);    
-  res.json(userinfo);
-  console.log(userinfo);
-    });
+  schemas.User.findOne({
+    "firstname": "myFirstName", 
+    "lastname": "myLastName"
+  }).
+  then(userresponse =>{
+    console.log (userresponse);
+  });
+});
+
+ 
 
 
 // example find underneath
@@ -202,7 +201,6 @@ app.get('/api/user' , (req,res)=>{
 //     .catch(err => {
 //       res.json(err);
 //     });
-// });
 
 
 
