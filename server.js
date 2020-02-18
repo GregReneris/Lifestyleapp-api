@@ -16,9 +16,9 @@ const collections = ["user"];
 const tmApikey = "dwXD5AKGG1cYnioNAAh1PSKaTZu2TIVN";
 const tmSize = 100; 
 const tmUrl = "https://app.ticketmaster.com/discovery/v2/events.json";
-const tmCity = "seattle";
+const tmCity = "seattle"; // this will be pulled from user location later. UserSchema.location
 const hkApikey = "200685387-0d1f511c4df4599326d988945a93ebf8";
-const hkLocation = "lat=47.6045335&lon=-122.3531904"
+const hkLocation = "lat=47.6045335&lon=-122.3531904" // this will be pulled from user location later. UserSchema.location.
 const hkRadius = 30;
 const hkMaxResults = 5;
 const hkUrl = "https://www.hikingproject.com/data";
@@ -26,7 +26,8 @@ const hkUrl = "https://www.hikingproject.com/data";
 // const db = mongojs(databaseUrl, collections);
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/lifestyle", { useNewUrlParser: true, useUnifiedTopology: true});
 
-// the below is probably wrong.
+
+
 const db = mongojs(databaseUrl, collections);
 db.on("error", error => {
   console.log("Database Error:", error);
@@ -54,17 +55,22 @@ app.use(session({ secret: "something secret here", resave: true, saveUninitializ
 //     origin:["https://joesreactzoo.herokuapp.com"]
 // }));
 
+app.use(cors({
+  origin: ["http://localhost:3000"],
+  credentials: true
+}));
+
 
 // BELOW IS AUTHENTICATION **********************
 app.post("/api/auth/signup", (req, res) => {
-  db.User.create(req.body).then(userData => {
+  db.users.save(req.body).then(userData => {         // this needs to switch to Mongo stuff. users is the mongo db table. 
     res.json(userData);
   })
 })
 app.post("/api/auth/login", (req, res) => {
-  db.User.findOne({
+  db.users.findOne({                                   // double check this with Mongo commands as well.
     where: {
-      name: req.body.name
+      email: req.body.email                             // for our sign up should this be name or email or username?
     }
   }).then(dbUser=>{
     if(bcrypt.compareSync(req.body.password,dbUser.password)){
@@ -115,7 +121,7 @@ app.get('/api/events' , (req,res)=>{
 
 
 app.get('/api/hikes' , (req,res)=>{
-  console.log("We want to know!");
+  // console.log("We want to know!");
   let maxDuration = 4*60;
 
   let finalurl = `${hkUrl}/get-trails?key=${hkApikey}&maxDistance=${hkRadius}&maxResult=${hkMaxResults}&${hkLocation}`; 
@@ -170,7 +176,33 @@ app.get('/api/addevent/:id' , (req, res) => {
 })
 
 
+// I don't think this is working yet! Was going to use this to return user inforation to the front end.
+app.get('/api/user' , (req,res)=>{
+  console.log("We want the user");
 
+  db.UserSchema.findOne('users')[
+    {  
+      where: 
+      firstname = req.body.firstname     // firstname for now. should be unique id or email later.                             
+    }
+  ]
+  .then(res => res.json())
+  console.log(res);    
+  res.json(userinfo);
+  console.log(userinfo);
+    });
+
+
+// example find underneath
+// app.get("/books", (req, res) => {
+//   db.Book.find({})
+//     .then(dbBook => {
+//       res.json(dbBook);
+//     })
+//     .catch(err => {
+//       res.json(err);
+//     });
+// });
 
 
 
