@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 const fetch = require("node-fetch")
 const schemas = require("./models/index")
 //const User = require("./models/User")
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 const databaseUrl = "lifestyle";
 const collections = ["user"];
@@ -56,14 +56,14 @@ app.use(session({ secret: "something secret here", resave: true, saveUninitializ
 // }));
 
 app.use(cors({
-  origin: ["http://localhost:3000"],
+  origin: ["http://localhost:3000"], // 3000 is the front end
   credentials: true
 }));
 
 
 // BELOW IS AUTHENTICATION **********************
 app.post("/api/auth/signup", (req, res) => {
-  db.users.save(req.body).then(userData => {         // this needs to switch to Mongo stuff. users is the mongo db table. 
+  schemas.User.create(req.body).then(userData => {         // this needs to switch to Mongo stuff. users is the mongo db table. 
     res.json(userData);
   })
 })
@@ -175,8 +175,7 @@ app.get('/api/addevent/:id' , (req, res) => {
 
 })
 
-
-// I don't think this is working yet! Was going to use this to return user inforation to the front end.
+//this returns the user and it's associated objects.
 app.get('/api/user' , (req,res)=>{
   console.log("We want the user");
 
@@ -188,21 +187,6 @@ app.get('/api/user' , (req,res)=>{
     console.log (userresponse);
   });
 });
-
- 
-
-
-// example find underneath
-// app.get("/books", (req, res) => {
-//   db.Book.find({})
-//     .then(dbBook => {
-//       res.json(dbBook);
-//     })
-//     .catch(err => {
-//       res.json(err);
-//     });
-
-
 
 
 
