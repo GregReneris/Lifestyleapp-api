@@ -182,6 +182,7 @@ app.get('/api/user' , (req,res)=>{
   db.User.findOne({
     "firstname": "myFirstName", 
     "lastname": "myLastName"
+    // email: "${db.User.email}"
   }).
   then(userresponse =>{
     console.log (userresponse);
