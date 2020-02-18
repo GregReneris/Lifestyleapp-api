@@ -6,7 +6,7 @@ const cors = require("cors");
 const mongojs = require("mongojs")
 const mongoose = require("mongoose");
 const fetch = require("node-fetch")
-const schemas = require("./models/index")
+const db = require("./models/index")
 //const User = require("./models/User")
 const PORT = process.env.PORT || 8080;
 
@@ -27,14 +27,14 @@ const hkUrl = "https://www.hikingproject.com/data";
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/lifestyle", { useNewUrlParser: true, useUnifiedTopology: true});
 
 
-
-const db = mongojs(databaseUrl, collections);
-db.on("error", error => {
-  console.log("Database Error:", error);
-});
+// console logging out "db" here and switching schemas from .models/index to DB 12:54 2.18/2020
+// const db = mongojs(databaseUrl, collections);
+// db.on("error", error => {
+//   console.log("Database Error:", error);
+// });
 
 // this creates local database for local use. As mongoose databases are created on demand.
-// let z = new schemas.User({ 
+// let z = new db.User({ 
 //   firstname: "myFirstName",
 //   lastname: "myLastName"
 // })
@@ -63,12 +63,12 @@ app.use(cors({
 
 // BELOW IS AUTHENTICATION **********************
 app.post("/api/auth/signup", (req, res) => {
-  schemas.User.create(req.body).then(userData => {         // this needs to switch to Mongo stuff. users is the mongo db table. 
+  db.User.create(req.body).then(userData => {         // this needs to switch to Mongo stuff. users is the mongo db table. 
     res.json(userData);
   })
 })
 app.post("/api/auth/login", (req, res) => {
-  db.users.findOne({                                   // double check this with Mongo commands as well.
+  db.User.findOne({                                   // double check this with Mongo commands as well.
     where: {
       email: req.body.email                             // for our sign up should this be name or email or username?
     }
@@ -112,7 +112,7 @@ app.get('/api/events' , (req,res)=>{
     .then(res => res.json())
     .then(data => {
       let activities = data._embedded.events.map(event => {
-        return schemas.Activity.createFromEvent(event);
+        return db.Activity.createFromEvent(event);
       })
       res.json(activities);  
   });
@@ -130,7 +130,7 @@ app.get('/api/hikes' , (req,res)=>{
     .then(res => res.json())    
     .then(data => {
       let activities = data.trails.map(event => {
-        return schemas.Activity.createFromHikes(event);
+        return db.Activity.createFromHikes(event);
       })
       res.json(activities);
     });
@@ -160,14 +160,14 @@ app.get('/api/addevent/:id' , (req, res) => {
       .then(res => res.json())
       .then(data => {
         console.log(data);
-        save( schemas.Activity.createFromHikes(data.trails[0]) );
+        save( db.Activity.createFromHikes(data.trails[0]) );
       })
   } else if (ids[0] === "event"){
     fetch(`${tmUrl}?apikey=${tmApikey}&id=${id}`)
     .then(res => res.json())
     .then(data => {
       console.log(data);
-      save( schemas.Activity.createFromEvent(data._embedded.events[0]) );
+      save( db.Activity.createFromEvent(data._embedded.events[0]) );
     })
   } else {
     res.sendStatus(403);
@@ -179,9 +179,10 @@ app.get('/api/addevent/:id' , (req, res) => {
 app.get('/api/user' , (req,res)=>{
   console.log("We want the user");
 
-  schemas.User.findOne({
+  db.User.findOne({
     "firstname": "myFirstName", 
     "lastname": "myLastName"
+    // email: "${db.User.email}"
   }).
   then(userresponse =>{
     console.log (userresponse);
