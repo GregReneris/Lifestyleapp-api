@@ -8,10 +8,9 @@ const saltRounds = 10;
 
 const UserSchema = new Schema(
     {
-        firstname: String,
-        lastname: String,
+        name: String,
         password: {type: String, required: true},
-        location: {type: String, required: true},
+        city: {type: String, required: true},
         email: {type: String, required: true, unique: true},
         completedActivites: [Activity.schema]
     }
