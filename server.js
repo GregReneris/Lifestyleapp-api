@@ -63,6 +63,8 @@ app.use(cors({
 
 // BELOW IS AUTHENTICATION **********************
 app.post("/api/auth/signup", (req, res) => {
+  console.log("MADE IT INTO SIGNUP");
+  console.log(req.body);
   db.User.create(req.body).then(userData => {         // this needs to switch to Mongo stuff. users is the mongo db table. 
     res.json(userData);
   })
@@ -161,6 +163,7 @@ app.get('/api/addevent/:id' , (req, res) => {
       .then(data => {
         console.log(data);
         save( db.Activity.createFromHikes(data.trails[0]) );
+        // append to current user [completedActivities]
       })
   } else if (ids[0] === "event"){
     fetch(`${tmUrl}?apikey=${tmApikey}&id=${id}`)
@@ -168,6 +171,7 @@ app.get('/api/addevent/:id' , (req, res) => {
     .then(data => {
       console.log(data);
       save( db.Activity.createFromEvent(data._embedded.events[0]) );
+        // append to current user [completedActivities]. this.session.user mongoappendTo [completedActivities].
     })
   } else {
     res.sendStatus(403);
@@ -180,9 +184,8 @@ app.get('/api/user' , (req,res)=>{
   console.log("We want the user");
 
   db.User.findOne({
-    "firstname": "myFirstName", 
-    "lastname": "myLastName"
-    // email: "${db.User.email}"
+    "name":  "Jenny"
+       // email: "${db.User.email}"
   }).
   then(userresponse =>{
     console.log (userresponse);
