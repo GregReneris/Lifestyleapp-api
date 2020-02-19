@@ -17,9 +17,6 @@ let googleURL= "https://maps.googleapis.com/maps/api/distancematrix/json?units=i
 console.log(googleURL)
 
 
-//TODO: Convert user.location from city into lat/long. Maybe. MDP
-
-
 // var example = "https://maps.googleapis.com/maps/api/place/autocomplete/xml?input=Amoeba&types=establishment&location=37.76999,-122.44696&radius=500&key="+googleApiKey;
 
 // "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Amoeba&types=establishment&location=37.76999,-122.44696&radius=500&key=AIzaSyB6YDdaRNCGktlvWISrGBjv75lcHfR-l44"
