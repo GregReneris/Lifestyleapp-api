@@ -1,13 +1,30 @@
+const axios = require ("axios");
 const db = require("../models/index");
 const mongoose = require("mongoose");
 const bcrypt = require('bcrypt')
 
+
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/lifestyle", { useNewUrlParser: true, useUnifiedTopology: true });
 
 function signUp(req, res) {
-  db.User.create(req.body).then(userData => {
-    res.json(userData);
-  })
+  const newUser={
+    ...req.body
+  }
+  let googleAPI = `https://maps.googleapis.com/maps/api/geocode/json?address=1600+ ${req.body.city} +&key=AIzaSyDZCcU8rBUnb8cXg8AoHZHr0Vymd7YT59A`
+  axios.get(googleAPI)
+  .then(({data}) => {
+    newUser.lat = data.results[0].geometry.location.lat
+    newUser.lon = data.results[0].geometry.location.lng
+    console.log("THIS IS NEW USER - ", newUser);
+    // console.log({cityLat, cityLon})
+    db.User.create(newUser).then(userData => {
+      res.json(userData);
+  
+    
+    }).catch(err=>console.log("THIS IS DB ERROR", err))
+  }).catch(err=>console.log("THIS US ERROR", err))
+ 
+ 
 }
 
 function login(req, res) {
