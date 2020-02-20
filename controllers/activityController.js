@@ -23,6 +23,12 @@ function saveActivity (activity, res) {
         if (err) {
             console.log("Save failed " + err);
         }
+    users.completedAcivites.save 
+    // (err => {7
+    //     if (err) {
+    //         console.log ("Save failed" + err); 
+    //     }
+    // }) 
     })
     res.sendStatus(200); // in future change to redirect.
 

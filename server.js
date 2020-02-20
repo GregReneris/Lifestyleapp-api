@@ -29,6 +29,9 @@ app.post("/api/auth/signup", (req, res) => {
 app.post("/api/auth/login", (req, res) => {
   authController.login(req, res)
 })
+app.get("/api/auth/logout", (req, res) => {
+  authController.logout (req, res)
+})
 app.get('/api/auth/loggedinuser', (req, res) => {
   authController.getSessionUser(req, res)
 });
