@@ -7,6 +7,8 @@ const authController = require("./controllers/authController")
 const tm = require("./controllers/ticketMasterController")
 const hikeController = require("./controllers/hikeController")
 const activityController = require("./controllers/activityController")
+const cityAutoComplete = require("./controllers/cityAutoCompleteController")
+require('dotenv').config();
 
 const PORT = process.env.PORT || 8080;
 const app = express();
@@ -50,6 +52,10 @@ app.get('/api/hikes', (req, res) => {
 
 app.get('/api/addevent/:id', (req, res) => {
   activityController.addEvent(req, res)
+})
+
+app.get('/api/places/:search', (req, res) => {
+  cityAutoComplete.userCity(req, res)
 })
 
 
