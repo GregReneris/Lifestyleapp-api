@@ -17,7 +17,8 @@ function login(req, res) {
     if (bcrypt.compareSync(req.body.password, dbUser.password)) {
       req.session.user = {
         id: dbUser._id,
-        name: dbUser.name
+        name: dbUser.name,
+        city: dbUser.city
       }
       res.json(req.session.user)
     }
