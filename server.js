@@ -51,8 +51,13 @@ app.get('/api/hikes', (req, res) => {
   hikeController.getHikes(req, res)
 });
 
-app.get('/api/addevent/:id', (req, res) => {
+app.get('/api/addactivity/:id', (req, res) => {     // not sure if it needs to be post here and from front end.
   activityController.addEvent(req, res)
+})
+
+app.get('/api/saveEventToUser', (req, res) => {     // not sure if it needs to be post here and from front end.
+  console.log(req.params);
+  authController.saveActivity(req, res);
 })
 
 app.get('/api/weather/:city', (req, res) => {
@@ -63,6 +68,8 @@ app.get('/api/weather/:city', (req, res) => {
 app.get('/api/places/:search', (req, res) => {
   cityAutoComplete.userCity(req, res)
 })
+
+
 
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}!`);

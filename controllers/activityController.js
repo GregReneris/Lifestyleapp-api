@@ -23,7 +23,23 @@ function saveActivity (activity, res) {
         if (err) {
             console.log("Save failed " + err);
         }
-    users.completedAcivites.save 
+    users.completedActivites.save
+
+
+    findOneAndUpdate(
+        {"_id":req.session.user.id }, 
+        {$push: {"completedActivites": {_id: activity._id, id: activity.id, activityName: activity.activityName, description : activity.description, url : activity.url, imgurl :activity.imgurl, type : activity.type, latitude : activity.latitude, longitude : activity.longitude, travelTime : activity.travelTime, date : activity.date, _v: activity._v}}},
+        {new: true},
+        function(err, model){
+           if (err){
+             console.log("ERROR: ", err);
+             res.send(500, err);
+           }else{
+             res.status(200).send(model);
+           }
+          }
+        );
+
     // (err => {7
     //     if (err) {
     //         console.log ("Save failed" + err); 
