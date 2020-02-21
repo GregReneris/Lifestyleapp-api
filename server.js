@@ -7,6 +7,7 @@ const authController = require("./controllers/authController")
 const tm = require("./controllers/ticketMasterController")
 const hikeController = require("./controllers/hikeController")
 const activityController = require("./controllers/activityController")
+const getWeather = require("./controllers/weatherController")
 const cityAutoComplete = require("./controllers/cityAutoCompleteController")
 require('dotenv').config();
 
@@ -54,10 +55,14 @@ app.get('/api/addevent/:id', (req, res) => {
   activityController.addEvent(req, res)
 })
 
+app.get('/api/weather/:city', (req, res) => {
+  console.log(req.params.city);
+  getWeather(req, res, req.params.city )
+})
+
 app.get('/api/places/:search', (req, res) => {
   cityAutoComplete.userCity(req, res)
 })
-
 
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}!`);
