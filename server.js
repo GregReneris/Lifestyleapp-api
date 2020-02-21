@@ -9,7 +9,6 @@ const hikeController = require("./controllers/hikeController")
 const activityController = require("./controllers/activityController")
 const getWeather = require("./controllers/weatherController")
 const cityAutoComplete = require("./controllers/cityAutoCompleteController")
-require('dotenv').config();
 
 const PORT = process.env.PORT || 8080;
 const app = express();
