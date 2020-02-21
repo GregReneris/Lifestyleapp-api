@@ -19,7 +19,7 @@ app.use(express.json());
 //this is where we start using authentication. 
 app.use(session({ secret: "something secret here", resave: true, saveUninitialized: true, cookie: { maxAge: 7200000 } }));
 // app.use(cors({
-//     origin:["https://joesreactzoo.herokuapp.com"]
+//     origin:["https://ourherku.herokuapp.com"]
 // }));
 app.use(cors({
   origin: ["http://localhost:3000"], // 3000 is the front end
