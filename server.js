@@ -8,6 +8,9 @@ const tm = require("./controllers/ticketMasterController")
 const hikeController = require("./controllers/hikeController")
 const activityController = require("./controllers/activityController")
 const getWeather = require("./controllers/weatherController")
+const cityAutoComplete = require("./controllers/cityAutoCompleteController")
+require('dotenv').config();
+
 const PORT = process.env.PORT || 8080;
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -52,6 +55,10 @@ app.get('/api/addevent/:id', (req, res) => {
 app.get('/api/weather/:city', (req, res) => {
   console.log(req.params.city);
   getWeather(req, res, req.params.city )
+})
+
+app.get('/api/places/:search', (req, res) => {
+  cityAutoComplete.userCity(req, res)
 })
 
 app.listen(PORT, () => {
