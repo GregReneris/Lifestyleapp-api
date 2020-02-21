@@ -19,7 +19,7 @@ function getHikeById(id) {
   return fetch(`${CONSTANTS.hkUrl}/get-trails-by-id?key=${CONSTANTS.hkApikey}&ids=${id}`)
     .then(res => res.json())
     .then(data => {
-      return db.Activity.createFromHikes(data.trails[0])
+      return db.Activity.createFromHikes(data.trails[0]) //not getting any info for data.trails[0] because the id is udefined. 
       // append to current user [completedActivities]
     })
 }
