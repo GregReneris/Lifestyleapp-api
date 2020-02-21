@@ -64,10 +64,20 @@ function getUser(req, res) {
     });
 }
 
+function logout (req, res) {
+  console.log ("Hitting Logout")
+  req.session.destroy(function () {
+    console.log ("Destroyed session")
+    res.render("login")
+})
+}
+
+
 // module.exports as an object, easier to pull / use specific functions
 module.exports = {
   signUp,
   login,
   getSessionUser,
+  logout,
   getUser
 }
