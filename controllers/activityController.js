@@ -29,13 +29,14 @@ function saveActivity(activity, res, req) {
         // we need to get users defined by the get call so the server knows which user to attach the activity to. It is crashing because of this.
         db.User.findOneAndUpdate( // needed to call db.User instead of this.findOneAndUpdate. Joe also was like this design is crazy!
             // this.findOneAndUpdate(
-            // console.log("Got here to findoneandupdate ******************************************************"),
-            // console.log(req.session.user.id),
+                // console.log(req.session.user.id),
             { "_id": req.session.user.id },
 
             { $push: { "completedActivites": { _id: activity._id, id: activity.id, activityName: activity.activityName, description: activity.description, url: activity.url, imgurl: activity.imgurl, type: activity.type, latitude: activity.latitude, longitude: activity.longitude, travelTime: activity.travelTime, date: activity.date, _v: activity._v } } },
             { new: true },
             function (err, model) {
+                console.log("Got here to findoneandupdate ******************************************************")
+
                 if (err) {
                     console.log("ERROR: ", err);
                     res.send(500, err);
