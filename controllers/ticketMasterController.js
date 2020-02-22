@@ -20,13 +20,13 @@ function getEvents(req, res) {
         });
 }
 
-function getEventById (id) {
-   return fetch(`${CONSTANTS.tmUrl}?apikey=${CONSTANTS.tmApikey}&id=${id}`)
-            .then(res => res.json())
-            .then(data => {
+function getEventById(id) {
+    return fetch(`${CONSTANTS.tmUrl}?apikey=${CONSTANTS.tmApikey}&id=${id}`)
+        .then(res => res.json())
+        .then(data => {
             return db.Activity.createFromEvent(data._embedded.events[0])
-                // append to current user [completedActivities]. this.session.user mongoappendTo [completedActivities].
-            })
+            // append to current user [completedActivities]. this.session.user mongoappendTo [completedActivities].
+        })
 }
 
 module.exports = {
