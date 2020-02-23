@@ -12,6 +12,7 @@ function getHikes(req, res) {
   let lon = req.session.user.lon
   
   let finalurl = `${CONSTANTS.hkUrl}/get-trails?key=${CONSTANTS.hkApikey}&maxDistance=${CONSTANTS.hkRadius}&maxResult=${CONSTANTS.hkMaxResults}&lat=${lat}&lon=${lon}`;
+  console.log(finalurl)
   fetch(finalurl)
     .then(res => res.json())
     .then(data => {

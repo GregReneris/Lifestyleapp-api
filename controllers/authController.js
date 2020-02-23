@@ -10,7 +10,7 @@ function signUp(req, res) {
   const newUser = {
     ...req.body
   }
-  let googleAPI = `https://maps.googleapis.com/maps/api/geocode/json?address=1600+ ${req.body.city} +&key=AIzaSyDZCcU8rBUnb8cXg8AoHZHr0Vymd7YT59A`
+  let googleAPI = `https://maps.googleapis.com/maps/api/geocode/json?address=${req.body.city}&key=AIzaSyDZCcU8rBUnb8cXg8AoHZHr0Vymd7YT59A`
   axios.get(googleAPI)
     .then(({ data }) => {
       newUser.lat = data.results[0].geometry.location.lat
