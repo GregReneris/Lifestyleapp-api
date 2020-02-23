@@ -45,21 +45,38 @@ function saveActivity(activity, res, req) {
                 }
             }
         );
-
-        // (err => {7
-        //     if (err) {
-        //         console.log ("Save failed" + err); 
-        //     }
-        // }) 
     })
     // res.sendStatus(200); // in future change to redirect.
-
 }
-// get current session user
-// add activity id to completed activity array
-// save user
-// NEED LOGGED IN USER FOR THIS TO WORK
+
+
+function deleteActivity(req, res, activity) {
+    console.log("IN DELETE ACTIVITY")
+    console.log(activity)
+    console.log ("BELOW IS REQ")
+    // console.log (req)
+        db.User.findOneAndUpdate( 
+            { "_id": req.session.user.id },
+
+            { $pull: { "completedActivites": {id: activity} } },
+            function (err, model) {
+                console.log("Got here to findoneandpull ******************************************************")
+                console.log (model);
+
+                if (err) {
+                    console.log("ERROR: ", err);
+                    res.send(500, err);
+                } else {
+                    res.status(200).send(model);
+                }
+            }
+    );
+}
+    // res.sendStatus(200); // in future change to redirect.
+
+
 
 module.exports = {
-    addEvent
+    addEvent,
+    deleteActivity
 }

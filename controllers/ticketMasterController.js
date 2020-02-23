@@ -5,7 +5,9 @@ const fetch = require("node-fetch")
 
 
 function getEvents(req, res) {
-    console.log(req.session.user)
+    console.log ("Get EVENTS HERE")
+    // console.log (req);
+    // console.log(req.session.user)
     let maxDuration = 4 * 60;
     let date = new Date();
     let currentTime = new Date(date.getTime() - date.getTimezoneOffset() * 60 * 1000);
@@ -15,9 +17,11 @@ function getEvents(req, res) {
     console.log(city);
 
     let finalurl = `${CONSTANTS.tmUrl}?apikey=${CONSTANTS.tmApikey}&size=${CONSTANTS.tmSize}&city=${city}&startDateTime=${startTime}&endDateTime=${endTime}`;
+    console.log (finalurl)
     fetch(finalurl)
         .then(res => res.json())
         .then(data => {
+            // console.log(data)
             let activities = data._embedded.events.map(event => {
                 return db.Activity.createFromEvent(event);
             })

@@ -4,13 +4,13 @@ const mongoose = require("mongoose");
 const bcrypt = require('bcrypt')
 
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/lifestyle", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/lifestyle", { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false  });
 
 function signUp(req, res) {
   const newUser = {
     ...req.body
   }
-  let googleAPI = `https://maps.googleapis.com/maps/api/geocode/json?address=1600+ ${req.body.city} +&key=AIzaSyDZCcU8rBUnb8cXg8AoHZHr0Vymd7YT59A`
+  let googleAPI = `https://maps.googleapis.com/maps/api/geocode/json?address=${req.body.city}&key=AIzaSyDZCcU8rBUnb8cXg8AoHZHr0Vymd7YT59A`
   axios.get(googleAPI)
     .then(({ data }) => {
       newUser.lat = data.results[0].geometry.location.lat
