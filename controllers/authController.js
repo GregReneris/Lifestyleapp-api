@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const bcrypt = require('bcrypt')
 
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/lifestyle", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/lifestyle", { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false  });
 
 function signUp(req, res) {
   const newUser = {

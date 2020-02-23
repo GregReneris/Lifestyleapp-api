@@ -71,6 +71,11 @@ app.get('/api/weather/:city', (req, res) => {
 app.get('/api/places/:search', (req, res) => {
   cityAutoComplete.userCity(req, res)
 });
+
+app.delete('/api/delete/:id', (req, res) => {
+  activityController.deleteActivity(req, res, req.params.id)
+});
+
 // PORT
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}!`);
