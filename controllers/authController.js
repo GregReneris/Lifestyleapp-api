@@ -73,18 +73,22 @@ function logout(req, res) {
 }
 
 function updateUser(req, res) {
-  console.log(req.body)
-   
-db.User.findOneAndUpdate(
+  console.log(req.session)
+  req.session.user.name = req.body.name;
+  req.session.user.city = req.body.city;  
+  
+  db.User.findOneAndUpdate(
   { _id: req.body.id }, 
   { $set: { 
     name: req.body.name,
     city: req.body.city
     } }
-).then((dbUser) => {
-  console.log("dbUser", dbUser);
-  res.json(dbUser)
-})
+  ).then((dbUser) => {
+    // console.log("dbUser", dbUser);
+    res.json(dbUser)
+  })
+
+  
 }
 
 module.exports = {
