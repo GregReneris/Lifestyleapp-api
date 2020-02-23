@@ -33,7 +33,9 @@ function login(req, res) {
       req.session.user = {
         id: dbUser._id,
         name: dbUser.name,
-        city: dbUser.city
+        city: dbUser.city,
+        lat: dbUser.lat,
+        lon: dbUser.lon
       }
       res.json(req.session.user)
     }
