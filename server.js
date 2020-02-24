@@ -18,10 +18,16 @@ app.use(session({ secret: "something secret here", resave: true, saveUninitializ
 // app.use(cors({
 //     origin:["https://ourherku.herokuapp.com"]
 // }));
+// app.use(cors({
+//   origin: ["https://localhost:3000/"], // 3000 is the front end
+//   credentials: true
+// }));
+
 app.use(cors({
-  origin: ["http://localhost:3000"], // 3000 is the front end
+  origin: ["https://aqueous-savannah-60861.herokuapp.com/"], // 3000 is the front end
   credentials: true
 }));
+
 app.put('/api/user', (req, res) =>{
    authController.updateUser(req,res)
 })
