@@ -19,8 +19,6 @@ function signUp(req, res) {
       // console.log({cityLat, cityLon})
       db.User.create(newUser).then(userData => {
         res.json(userData);
-
-
       }).catch(err => console.log("THIS IS DB ERROR", err))
     }).catch(err => console.log("THIS US ERROR", err))
 }
@@ -55,7 +53,8 @@ function getSessionUser(req, res) {
 
 function getUser(req, res) {
   console.log("We want the user");
-
+  // the user is not available in this object
+  console.log(req.session);
   db.User.findOne({
     _id: req.session.user.id
   }).
@@ -87,8 +86,6 @@ function updateUser(req, res) {
     // console.log("dbUser", dbUser);
     res.json(dbUser)
   })
-
-  
 }
 
 module.exports = {
