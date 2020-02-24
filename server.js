@@ -24,7 +24,7 @@ app.use(session({ secret: "something secret here", resave: true, saveUninitializ
 // }));
 
 app.use(cors({
-  origin: ["https://aqueous-savannah-60861.herokuapp.com/"], // 3000 is the front end
+  origin: ["https://aqueous-savannah-60861.herokuapp.com"], 
   credentials: true
 }));
 
