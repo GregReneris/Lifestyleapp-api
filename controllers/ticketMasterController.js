@@ -4,12 +4,15 @@ const fetch = require("node-fetch")
 
 
 
-function getEvents(req, res) {
-    console.log ("Get EVENTS HERE")
+function getEvents(req, res, date) {
+    console.log ("\n Get EVENTS HERE" )
+    date = new Date(date) 
+    console.log (date)
+    console.log (typeof(date));
     // console.log (req);
     // console.log(req.session.user)
     let maxDuration = 4 * 60;
-    let date = new Date();
+    // let date = new Date();
     let currentTime = new Date(date.getTime() - date.getTimezoneOffset() * 60 * 1000);
     let startTime = currentTime.toISOString().split(".")[0] + "Z";
     let endTime = new Date(currentTime.getTime() + 60 * 60 * 24 * 1000).toISOString().split(".")[0] + "Z";
