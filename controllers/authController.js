@@ -19,8 +19,6 @@ function signUp(req, res) {
       // console.log({cityLat, cityLon})
       db.User.create(newUser).then(userData => {
         res.json(userData);
-
-
       }).catch(err => console.log("THIS IS DB ERROR", err))
     }).catch(err => console.log("THIS US ERROR", err))
 }
@@ -55,7 +53,8 @@ function getSessionUser(req, res) {
 
 function getUser(req, res) {
   console.log("We want the user");
-
+  // the user is not available in this object
+  console.log(req.session);
   db.User.findOne({
     _id: req.session.user.id
   }).
@@ -65,12 +64,13 @@ function getUser(req, res) {
 }
 
 function logout(req, res) {
-  console.log("Hitting Logout")
+  // console.log("Hitting Logout")
+  //delete session user, logging you out
   req.session.destroy(function () {
-    console.log("Destroyed session")
-    res.render("login")
-  })
+    res.send('successfully logged out')
+})
 }
+
 
 function updateUser(req, res) {
   console.log(req.session)

@@ -12,11 +12,13 @@ function getWeather(req, res, city) {
 
   axios.get(openWeatherAPI)
     .then(({ data }) => {
-      console.log(data);
+      console.log(data.main);
+    
 
       newWeather.weather = data.weather[0].main
       newWeather.desc = data.weather[0].description
       newWeather.icon = data.weather[0].icon
+      newWeather.temp = data.main.temp
       console.log(newWeather);
       res.json(newWeather)
 
