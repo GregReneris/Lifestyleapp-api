@@ -76,18 +76,32 @@ function updateUser(req, res) {
   console.log(req.session)
   req.session.user.name = req.body.name;
   req.session.user.city = req.body.city;  
+
   
+  let googleAPI = `https://maps.googleapis.com/maps/api/geocode/json?address=${req.body.city}&key=AIzaSyDZCcU8rBUnb8cXg8AoHZHr0Vymd7YT59A`
+  axios.get(googleAPI)
+    .then(({ data }) => {
+      data.lat = JSON.stringify(data.results[0].geometry.location.lat),
+      data.lon = JSON.stringify(data.results[0].geometry.location.lng),
+      req.session.user.lat = data.lat
+      req.session.user.lon = data.lon
+    // .then(  
   db.User.findOneAndUpdate(
   { _id: req.body.id }, 
   { $set: { 
     name: req.body.name,
-    city: req.body.city
+    city: req.body.city,
+    lat: data.lat,
+    lon: data.lon
     } }
   ).then((dbUser) => {
     // console.log("dbUser", dbUser);
     res.json(dbUser)
   })
-}
+  //)
+  }
+    )};
+
 
 module.exports = {
   signUp,

@@ -6,7 +6,7 @@ function getWeather(req, res, city) {
   const newWeather = {}
   console.log("THIS IS CITY: ", city);
 
-  let openWeatherAPI = `https://api.openweathermap.org/data/2.5/weather?q=${city} &units=imperial&appid=e7196856e41701aad2ab6aa22965b557`
+  let openWeatherAPI = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=e7196856e41701aad2ab6aa22965b557`
 
   console.log("URL TYPE = ", typeof openWeatherAPI);
 
