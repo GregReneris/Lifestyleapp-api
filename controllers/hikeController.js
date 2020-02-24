@@ -4,7 +4,15 @@ const fetch = require("node-fetch");
 
 function getHikes(req, res) {
   let maxDuration = 4 * 60;
-  let finalurl = `${CONSTANTS.hkUrl}/get-trails?key=${CONSTANTS.hkApikey}&maxDistance=${CONSTANTS.hkRadius}&maxResult=${CONSTANTS.hkMaxResults}&${CONSTANTS.hkLocation}`;
+  
+  // adding in the user's location.
+  // CONSTANTS.hklocation = {user.}
+  // lat=47.6045335&lon=-122.3531904
+  let lat = req.session.user.lat
+  let lon = req.session.user.lon
+  
+  let finalurl = `${CONSTANTS.hkUrl}/get-trails?key=${CONSTANTS.hkApikey}&maxDistance=${CONSTANTS.hkRadius}&maxResult=${CONSTANTS.hkMaxResults}&lat=${lat}&lon=${lon}`;
+  console.log(finalurl)
   fetch(finalurl)
     .then(res => res.json())
     .then(data => {
