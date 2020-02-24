@@ -46,8 +46,8 @@ app.get('/api/user', (req, res) => {
   authController.getUser(req, res)
 });
 // GET EVENTS FROM TM API
-app.get('/api/events', (req, res) => {
-  tm.getEvents(req, res)
+app.get('/api/events/:date', (req, res) => {
+  tm.getEvents(req, res, req.params.date)
 });
 // GET HIKES FROM HIKE API
 app.get('/api/hikes', (req, res) => {
