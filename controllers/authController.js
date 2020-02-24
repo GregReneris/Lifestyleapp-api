@@ -64,12 +64,13 @@ function getUser(req, res) {
 }
 
 function logout(req, res) {
-  console.log("Hitting Logout")
+  // console.log("Hitting Logout")
+  //delete session user, logging you out
   req.session.destroy(function () {
-    console.log("Destroyed session")
-    res.render("login")
-  })
+    res.send('successfully logged out')
+})
 }
+
 
 function updateUser(req, res) {
   console.log(req.session)
