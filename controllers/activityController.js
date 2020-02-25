@@ -85,7 +85,13 @@ function setStars(req, res) {
         .then(user => {
             console.log("GOT HERE tO USER")
             console.log(user)
-            user.update({"completedActivites._id" : Number(req.body.id) }, {"$set": {"completedActivites.$.rating": Number(req.body.value)}})
+            user.update(
+                { "completedActivites.id" : req.body.id }, 
+                {
+                    "$set": {
+                        "completedActivites.$.rating": Number(req.body.value)
+                    }
+                })
         } )
 
             // if (err) {
