@@ -76,16 +76,13 @@ function deleteActivity(req, res, activity) {
 
 function setStars(req, res) {
     // console.log(id, value);
-    console.log (req.session.user)
-    console.log(req.body)
+    // console.log (req.session.user)
+    // console.log(req.body)
 
     db.User.findOneAndUpdate(
         { _id: req.session.user.id,  "completedActivites.id" : req.body.id  },
         { $set: { "completedActivites.$.rating": Number(req.body.value) } }, 
         function (err, model) {
-            console.log("Got here to setStars  ******************************************************")
-            console.log(model);
-
             if (err) {
                 console.log("ERROR: ", err);
                 res.send(500, err);
