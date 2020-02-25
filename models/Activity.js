@@ -18,6 +18,7 @@ const ActivitySchema = new Schema(
         },
         longitude: String,
         latitude: String,
+        rating: Number,
         travelTime: Number //in minutes.
         
     },
@@ -39,6 +40,7 @@ ActivitySchema.statics.createFromEvent = function (event) {
         type: "Event",
         latitude: event._embedded.venues[0].location.latitude,
         longitude: event._embedded.venues[0].location.longitude,
+        rating: 2,
         travelTime: Math.floor(Math.random() * 60) // TODO
       })
 }
@@ -54,6 +56,7 @@ ActivitySchema.statics.createFromHikes = function (event) {
         type: "Hike",
         latitude: event.latitude,
         longitude: event.longitude,
+        rating: 2,
         travelTime: Math.floor(Math.random() * 60) // TODO
       })
 }
