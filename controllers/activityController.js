@@ -57,7 +57,6 @@ function deleteActivity(req, res, activity) {
     // console.log (req)
     db.User.findOneAndUpdate(
         { "_id": req.session.user.id },
-
         { $pull: { "completedActivites": { id: activity } } },
         function (err, model) {
             console.log("Got here to findoneandpull ******************************************************")
@@ -80,18 +79,19 @@ function setStars(req, res) {
     console.log (req.session.user)
     console.log(req.body)
 
-    db.User.findOne(
-        { _id: req.session.user.id } )
-        .then(user => {
-            console.log("GOT HERE tO USER")
-            console.log(user)
-            user.update(
-                { "completedActivites.id" : req.body.id }, 
-                {
-                    "$set": {
-                        "completedActivites.$.rating": Number(req.body.value)
-                    }
-                })
+    db.User.findOneAndUpdate(
+        { _id: req.session.user.id,  "completedActivites.id" : req.body.id  },
+        { $set: { "completedActivites.$.rating": Number(req.body.value) } }, 
+        function (err, model) {
+            console.log("Got here to setStars  ******************************************************")
+            console.log(model);
+
+            if (err) {
+                console.log("ERROR: ", err);
+                res.send(500, err);
+            } else {
+                res.status(200).send(model);
+            }
         } )
 
             // if (err) {
